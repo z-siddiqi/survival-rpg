@@ -16,10 +16,12 @@ export class Player {
     }
 
     addHealth(amount){
+        console.log(`You have added ${amount} health.`);
         return this.health += amount;
     }
 
     takeDamage(damage){
+        console.log(`You have taken ${damage} damage.`);
         return this.health -= damage;
     }
 
@@ -57,12 +59,10 @@ export class Player {
         if (this.inventory.length==0){
             return;
         }
-
         var s = "";
         for(var i of this.inventory){
             s += `\n${i} `;
         };
-
         console.log(`Inventory: \n------------${s}\n------------`);
     }
 
