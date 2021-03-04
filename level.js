@@ -19,11 +19,9 @@ export class Level {
 	}
 
 	runHangmanGame() {
-		this.hangman.main().then(result => {
-			console.log(result);
-		}).catch(e => {
-			console.log('Failed:', e);
-		})
+		this.hangman.main()
+		.then(result => console.log(result))
+		.catch(e => console.log("Failed:", e))
 	}
 
 	run() {
