@@ -1,6 +1,5 @@
 import rl from "readline";
-import Player from "./module.js";
-import run from ".hangman.js";
+import {Player} from "./module.js";
 
 
 const readline = rl.createInterface({
