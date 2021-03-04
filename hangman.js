@@ -66,7 +66,7 @@ function hangman() {
     })
 }
 
-async function run() {
+export async function run() {
     try {
         let hangmanResult = await hangman()
         console.log(hangmanResult);
@@ -74,3 +74,5 @@ async function run() {
         console.log("Failed:", e);
     }
 }
+
+//run();

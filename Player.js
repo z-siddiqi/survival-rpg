@@ -22,6 +22,10 @@ export class Player {
         return this.name;
     }
 
+    setName(s){
+        return this.name = s;
+    }
+
     getCurrentRoom(){
         return this.currentRoom;
     }
