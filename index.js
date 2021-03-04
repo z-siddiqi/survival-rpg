@@ -13,9 +13,12 @@ function startGame() {
       message: "Do you want to play a game? yes/no",
       yes: "firstStep",
       no: () => {
-        // Testing
-        var player = new Player("A", 20);
-        console.log();
+        //  Testing
+          var player = new Player("A", 20);
+          //player.checkInventory().push("check")
+          console.log(player.checkInventory());
+          console.log(player.putInBag("syringe"));
+          player.use("syringe");
         console.log("Bye then!");
         readline.close();
       },
@@ -61,7 +64,7 @@ function startGame() {
   function handleAnswer(answer) {
     let step;
 
-    if (answer === "yes") {
+    if (answer === "yes" || answer === "y") {
       step = steps[currentStep].yes;
     } else if (isNumber(answer)) {
       console.log(`${answer} is all I need. <3`);
