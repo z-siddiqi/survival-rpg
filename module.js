@@ -1,7 +1,7 @@
 // Stores player information 
 
 export class Player {
-    constructor(name, health=10){
+    constructor(name="Player", health=10){
         this.name = name;
         this.health = health;
         this.inventory = [];
@@ -25,28 +25,45 @@ export class Player {
 
     checkInventory(){  
         if (this.inventory.length!=0){
-           return this.inventory; 
+           //return this.inventory; 
+            this.printInventory();
         }
         else {
-            console.log("Your inventory is empty");
-            return this.inventory;
+            console.log("Your inventory is empty.");
         }
     }
 
     putInBag(item){
         this.inventory.push(item);
+        console.log(`You have put ${item} in your bag.`)
         return this.inventory;
     }
 
     use(item){
         if (!this.inventory.includes(item)){
-            console.log(`You do not have a ${item}`);
+            console.log(`You do not have a ${item}.`);
         } else{
             this.inventory = this.inventory.filter(i => i !== item);
-            console.log(`You used a ${item}. \nInventory: ${this.inventory}`);
+            console.log(`You used a ${item}.`);
+        }
+        return this.inventory;
+    }
+
+    printStatus(){
+        console.log(`Name: ${this.name} \nHealth: ${this.health}`)
+    }
+
+    printInventory(){
+        if (this.inventory.length==0){
+            return;
         }
 
-        return this.checkInventory();
+        var s = "";
+        for(var i of this.inventory){
+            s += `\n${i} `;
+        };
+
+        console.log(`Inventory: \n------------${s}\n------------`);
     }
 
 }

@@ -14,11 +14,18 @@ function startGame() {
       yes: "firstStep",
       no: () => {
         //  Testing
+        /* 
           var player = new Player("A", 20);
           //player.checkInventory().push("check")
-          console.log(player.checkInventory());
-          console.log(player.putInBag("syringe"));
+          player.checkInventory();
+          player.putInBag("syringe");
+          player.putInBag("water");
+          player.checkInventory();
+          //player.printContent();
           player.use("syringe");
+          player.use("syringe");
+          player.printStatus();
+        */
         console.log("Bye then!");
         readline.close();
       },
