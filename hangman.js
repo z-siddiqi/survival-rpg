@@ -31,6 +31,12 @@ function isRoundWon(word, guesses) {
     return !word.split('').find(letter => !guesses.includes(letter));
 }
 
+function isRoundLost(word, guesses) {
+    let incorrectGuesses = guesses.filter(letter => !word.includes(letter))
+    return !(HEALTH - incorrectGuesses.length);
+}
+
+const HEALTH = 5;
 let randomWord = getRandomWord(words);
 let playerGuesses = [];
 
@@ -46,12 +52,16 @@ function hangman() {
             } else {
                 console.log(processGuess(randomWord, playerGuess, playerGuesses));
                 if (isRoundWon(randomWord, playerGuesses)) {
+                    console.log("You Won!")
+                    rl.close();
+                } else if (isRoundLost(randomWord, playerGuesses)) {
+                    console.log("You Lost!")
                     rl.close();
                 }
             }
             rl.prompt()
         }).on('close', function () {
-            resolve("You Win!");
+            resolve("Round Over!");
         });
     })
 }
@@ -64,5 +74,3 @@ async function run() {
         console.log("Failed:", e);
     }
 }
-
-run();
