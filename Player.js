@@ -1,10 +1,17 @@
 // Stores player information 
 
 export class Player {
-    constructor(name="Player", health=10){
+    constructor(name="Player", health=10, currentRoom='', startRoom){
         this.name = name;
         this.health = health;
         this.inventory = [];
+        if (this.currentRoom === '') {
+            this.currentRoom = this.startRoom;
+        } else{
+            this.currentRoom = currentRoom;
+        }
+          this.startRoom = startRoom;
+           
     }
 
     getHealth(){
@@ -13,6 +20,10 @@ export class Player {
 
     getName(){
         return this.name;
+    }
+
+    getCurrentRoom(){
+        return this.currentRoom;
     }
 
     addHealth(amount){
@@ -64,6 +75,10 @@ export class Player {
             s += `\n${i} `;
         };
         console.log(`Inventory: \n------------${s}\n------------`);
+    }
+
+    resetInventory(){
+        return this.inventory = [];
     }
 
 }
