@@ -1,22 +1,22 @@
-import {Hangman} from "./hangman.js";
+import { Hangman } from "./hangman.js";
 
 export class Level {
-    constructor(name, description, words){
-        this.name = name;
-        this.description = description;
-        this.hangman = new Hangman(words);
-        this.prizes = [];
-    }
+	constructor(name, description, words) {
+		this.name = name;
+		this.description = description;
+		this.hangman = new Hangman(words);
+		this.prizes = [];
+	}
 
-    getPrize() {
-        prize = this.prizes.pop();
-        return prize;
-    }
+	getPrize() {
+		prize = this.prizes.pop();
+		return prize;
+	}
 
-    displayIntro() {
-    	console.log(`This level is called: ${this.name}\n`);
+	displayIntro() {
+		console.log(`This level is called: ${this.name}\n`);
 		console.log(`${this.description}`);
-    }
+	}
 
 	runHangmanGame() {
 		this.hangman.main().then(result => {
@@ -26,10 +26,10 @@ export class Level {
 		})
 	}
 
-    run() {
+	run() {
 		this.displayIntro();
 		this.runHangmanGame();
-    }
+	}
 }
 
 // testing
