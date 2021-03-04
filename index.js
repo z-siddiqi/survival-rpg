@@ -1,10 +1,11 @@
 import rl from "readline";
-import {Player} from "./Player.js";
+import {Player} from "./player.js";
 import {run} from "./hangman.js";
 
+
 const readline = rl.createInterface({
-  input: process.stdin,
-  output: process.stdout,
+	input: process.stdin,
+	output: process.stdout,
 });
 
 var player = new Player();
@@ -64,6 +65,7 @@ function playerUseItem(){
   console.log("implement");
   //readline.close();
   inventoryMenu();
+
 }
 
 menu();
