@@ -7,14 +7,15 @@ const readline = rl.createInterface({
   output: process.stdout,
 });
 
+var date = new Date();
+
 function startGame() {
   const steps = {
     start: {
-      message: "Do you want to play a game? yes/no",
+      message: `Start ${date.toString()} \nDo you want to play a game? yes/no`,
       yes: "firstStep",
       no: () => {
-        //  Testing
-        /* 
+        //  Testing 
           var player = new Player("A", 20);
           //player.checkInventory().push("check")
           player.checkInventory();
@@ -25,7 +26,7 @@ function startGame() {
           player.use("syringe");
           player.use("syringe");
           player.printStatus();
-        */
+    
         console.log("Bye then!");
         readline.close();
       },
