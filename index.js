@@ -1,4 +1,6 @@
 import rl from "readline";
+import {Player}from './module.js';
+
 
 const readline = rl.createInterface({
   input: process.stdin,
@@ -11,6 +13,9 @@ function startGame() {
       message: "Do you want to play a game? yes/no",
       yes: "firstStep",
       no: () => {
+        // Testing
+        var player = new Player("A", 20);
+        console.log();
         console.log("Bye then!");
         readline.close();
       },
