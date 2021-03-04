@@ -1,104 +1,104 @@
 import rl from "readline";
-import {Player} from "./module.js";
-
+import { Player } from "./player.js";
 
 const readline = rl.createInterface({
-  input: process.stdin,
-  output: process.stdout,
+	input: process.stdin,
+	output: process.stdout,
 });
 
+var date = new Date();
+
 function startGame() {
-  const steps = {
-    start: {
-      message: "Do you want to play a game? yes/no",
-      yes: "firstStep",
-      no: () => {
-        //  Testing
-        /* 
-          var player = new Player("A", 20);
-          //player.checkInventory().push("check")
-          player.checkInventory();
-          player.putInBag("syringe");
-          player.putInBag("water");
-          player.checkInventory();
-          //player.printContent();
-          player.use("syringe");
-          player.use("syringe");
-          player.printStatus();
-        */
-        console.log("Bye then!");
-        readline.close();
-      },
-    },
-    end: {
-      message: "Do you want to play again? yes/no",
-      yes: "start",
-      no: () => {
-        console.log("Bye then!");
-        readline.close();
-      },
-    },
-    firstStep: {
-      message: "Do you love me? yes/no",
-      yes: "lovely",
-      no: () => {
-        console.log("Bye then!");
-        readline.close();
-      },
-    },
-    lovely: {
-      message: "Great, how much? 1-10",
-      no: () => {
-        console.log("Bye then!");
-        readline.close();
-      },
-    },
-    // put more steps here
-  };
+	const steps = {
+		start: {
+			message: `Start ${date.toString()} \nDo you want to play a game? yes/no`,
+			yes: "firstLevel",
+			no: () => {
+				//  Testing 
+				var player = new Player("A", 20);
+				//player.checkInventory().push("check")
+				player.checkInventory();
+				player.putInBag("syringe");
+				player.putInBag("water");
+				player.checkInventory();
+				//player.printContent();
+				player.use("syringe");
+				player.use("syringe");
+				player.printStatus();
 
-  let currentStep = "start";
+				console.log("Bye then!");
+				readline.close();
+			},
+		},
+		end: {
+			message: "Do you want to play again? yes/no",
+			yes: "start",
+			no: () => {
+				console.log("Bye then!");
+				readline.close();
+			},
+		},
+		firstLevel: {
+			message: "Do you love me? yes/no",
+			yes: "secondLevel",
+			no: () => {
+				console.log("Bye then!");
+				readline.close();
+			},
+		},
+		secondLevel: {
+			message: "Great, how much? 1-10",
+			no: () => {
+				console.log("Bye then!");
+				readline.close();
+			},
+		},
+		// put more steps here
+	};
 
-  function logStep() {
-    const step = steps[currentStep];
+	let currentStep = "start";
 
-    if (step) {
-      readline.question(`${step.message || ""} `, (input) => {
-        handleAnswer(input);
-      });
-    }
-  }
+	function logStep() {
+		const step = steps[currentStep];
 
-  function handleAnswer(answer) {
-    let step;
+		if (step) {
+			readline.question(`${step.message || ""} `, (input) => {
+				handleAnswer(input);
+			});
+		}
+	}
 
-    if (answer === "yes" || answer === "y") {
-      step = steps[currentStep].yes;
-    } else if (isNumber(answer)) {
-      console.log(`${answer} is all I need. <3`);
-    } else {
-      step = steps[currentStep].no;
-    }
+	function handleAnswer(answer) {
+		let step;
 
-    if (typeof step === "function") {
-      step();
-      return;
-    }
+		if (answer === "yes" || answer === "y") {
+			step = steps[currentStep].yes;
+		} else if (isNumber(answer)) {
+			console.log(`${answer} is all I need. <3`);
+		} else {
+			step = steps[currentStep].no;
+		}
 
-    if (typeof step === "string") {
-      currentStep = step;
-    } else {
-      currentStep = "end";
-    }
-    logStep();
-  }
+		if (typeof step === "function") {
+			step();
+			return;
+		}
 
-  function isNumber(num) {
-    const value = parseInt(num);
-    return !isNaN(value);
-  }
+		if (typeof step === "string") {
+			currentStep = step;
+		} else {
+			currentStep = "end";
+		}
+		logStep();
+	}
 
-  console.clear();
-  logStep();
+	function isNumber(num) {
+		const value = parseInt(num);
+		return !isNaN(value);
+	}
+
+	console.clear();
+	logStep();
 }
 
 startGame();
