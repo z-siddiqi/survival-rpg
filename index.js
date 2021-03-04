@@ -1,8 +1,6 @@
 import rl from "readline";
 import {Player} from "./Player.js";
-import run from "./hangman.js";
-
-
+//import run from "./hangman.js";
 
 const readline = rl.createInterface({
   input: process.stdin,
@@ -15,7 +13,7 @@ function startGame() {
   const steps = {
     start: {
       message: `Start ${date.toString()} \nDo you want to play a game? yes/no`,
-      yes: "firstStep",
+      yes: "firstLevel",
       no: () => {
         //  Testing 
           var player = new Player("A", 20);
@@ -41,15 +39,15 @@ function startGame() {
         readline.close();
       },
     },
-    firstStep: {
+    firstLevel: {
       message: "Do you love me? yes/no",
-      yes: "lovely",
+      yes: "secondLevel",
       no: () => {
         console.log("Bye then!");
         readline.close();
       },
     },
-    lovely: {
+    secondLevel: {
       message: "Great, how much? 1-10",
       no: () => {
         console.log("Bye then!");
