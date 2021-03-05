@@ -29,15 +29,9 @@ export class Level {
 		console.log(`${this.description}`);
 	}
 
-	runHangmanGame() {
-		this.hangman.main()
-		.then(result => console.log(result))
-		.catch(e => console.log("Failed:", e))
-	}
-
 	run() {
 		this.displayIntro();
-		this.runHangmanGame();
+		this.hangman.main();
 	}
 }
 
@@ -47,5 +41,4 @@ let firstLevel = new Level(
 	"You have encountered an object.\nGuess the name of the object correctly to add it to your inventory.",
 	["words", "birds"]
 )
-firstLevel.generateMap();
-console.log(firstLevel.map);
+firstLevel.run();
