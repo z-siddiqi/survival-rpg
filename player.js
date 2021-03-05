@@ -8,31 +8,42 @@ export class Player {
         this.health = health;
         this.level = level;
         this.inventory = [];
-        this.actions = ["attack", "run"];
-        this.position = [2, 1];
+        this.position = [3, 1];
     }
 
-    move() {
+    inputMovevement() {
         console.log("Input movement: ");
         movementInput: while (true) {
             var playerMovement = readlineSync.question(">");
             switch (playerMovement) {
                 case "w":
-                    this.position[0] += 1;
+                    this.move(0, -1);
                     break movementInput;
                 case "a":
-                    this.position[1] -= 1;
+                    this.move(1, -1);
                     break movementInput;
                 case "s":
-                    this.position[0] -= 1;
+                    this.move(0, 1);
                     break movementInput;
                 case "d":
-                    this.position[1] += 1;
+                    this.move(1, 1);
                     break movementInput;
                 default:
                     console.log("Error! Invalid movement!");
             }
         }
+    }
+
+    move(direction, movement) {
+        this.position[direction] += movement;
+        if (!this.validatePosition()) {
+            console.log("You are at the edge of the map. Teleporting you to a random position!");
+            this.position = [...Array(2)].map(() => Math.floor(Math.random() * 2));
+        }
+    }
+
+    validatePosition () {
+        return (this.position[0] >= 0 && this.position[0] <= 2) && (this.position[1] >= 0 && this.position[1] <= 2);
     }
 
     getHealth() {

@@ -2,45 +2,52 @@ import { Hangman } from "./hangman.js";
 import { Player } from "./player.js";
 
 export class Level {
-	constructor(name, description, words) {
+	constructor(name, description) {
 		this.name = name;
 		this.description = description;
-		this.hangman = new Hangman(words);
-		this.prizes = [];
-		// 0 = nothing, 1 = entry, 2 = exit, 3 = hangman
-		this.map = [[0, 2, 0], [3, 0, 0], [0, 1, 0]];
+		this.items = ["syringe", "plaster", "first-aid kit"];  // these should be changed to instances of the item class
+		// 0 = nothing, 1 = item, 2 = hangman
+		this.map = Level.generateMap();
 	}
 
-	// generateMap() {
-	// 	this.map = [...Array(3)].map(() => Array.from({length: 3}, () => Math.floor(Math.random() * 4)));
-	// }
+	static generateMap() {
+		return [...Array(4)].map(() => Array.from({length: 4}, () => Math.floor(Math.random() * 3)));
+	}
 
-	displayLocation(position) {
+	getOutcome(position) {
 		let x = position[0];
 		let y = position[1];
 		let element = this.map[x][y];
-		console.log(element);
+		if (element === 1) {
+			let item = this.getItem();
+			return `You have found a ${item}. Item added to your inventory.`;
+			// add item to inventory
+		} else if (element === 2) {
+			let hangman = new Hangman(["fish", "chips"]);
+			return hangman.main();
+		}
+		return "Nothing here. Keep looking!";
 	}
 
-	getPrize() {
-		let prize = this.prizes.pop();
-		return prize;
+	getItem() {
+		let item = this.items.pop();
+		return item;
 	}
 
-	displayIntro() {
-		console.log(`This level is called: ${this.name}\n`);
-		console.log(`${this.description}`);
+	getIntro() {
+		return `This level is called: ${this.name}\n${this.description}`;
 	}
 }
 
 // testing
-let level = new Level(
-	"Level 1",
-	"Easy level.",
-	["words", "birds"]
-);
+let level = new Level("Level 1", "Easy level.");
 let player = new Player();
-level.displayLocation(player.position);
-player.move();
-console.log(player.position);
 
+
+// main loop
+console.log(level.getIntro());
+game: while (true) {
+	console.log("Move using 'WASD' keys.\n");
+	player.inputMovevement();
+	console.log(level.getOutcome(player.position));
+}
