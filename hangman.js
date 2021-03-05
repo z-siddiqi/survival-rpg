@@ -40,8 +40,11 @@ export class Hangman {
     }
 
     main() {
+        // maybe pass in an item to win from level items?
         let randomWord = this.getRandomWord();
         let playerGuesses = [];
+        let outcome;
+        console.log(`You have encountered an object. Guess the ${randomWord.length} letter word to add it to your inventory.`);
         console.log(this.getOutput(randomWord, playerGuesses));
         while (true) {
             var playerGuess = readlineSync.question(">");
@@ -50,13 +53,15 @@ export class Hangman {
             } else {
                 console.log(this.processGuess(randomWord, playerGuess, playerGuesses));
                 if (this.isRoundWon(randomWord, playerGuesses)) {
-                    console.log("You Won!")
+                    outcome = `You won, ${randomWord} added to inventory!`;
                     break;
                 } else if (this.isRoundLost(randomWord, playerGuesses)) {
-                    console.log("You Lost!")
+                    outcome = "You lost!";
+                    // reduce health here
                     break;
                 }
             }
         }
+        return outcome;
     }
 }

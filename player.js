@@ -1,31 +1,49 @@
+import readlineSync from "readline-sync";
+
 // Stores player information 
 
 export class Player {
     constructor(name = "Player", health = 10, level) {
         this.name = name;
         this.health = health;
-        this.inventory = [];
-        this.actions = ["attack", "run"];
         this.level = level;
+        this.inventory = [];
+        this.position = [3, 1];
     }
 
-    movement() {
-        let movements = ["w", "a", "s", "d"];
-        return new Promise((resolve, reject) => {
-            let rl = readline.createInterface(process.stdin, process.stdout);
-            rl.setPrompt(">");
-            rl.prompt();
-            rl.on('line', (playerMovement) => {
-                if (movements.includes(!playerMovement)) {
+    inputMovevement() {
+        console.log("Input movement: ");
+        movementInput: while (true) {
+            var playerMovement = readlineSync.question(">");
+            switch (playerMovement) {
+                case "w":
+                    this.move(0, -1);
+                    break movementInput;
+                case "a":
+                    this.move(1, -1);
+                    break movementInput;
+                case "s":
+                    this.move(0, 1);
+                    break movementInput;
+                case "d":
+                    this.move(1, 1);
+                    break movementInput;
+                default:
                     console.log("Error! Invalid movement!");
-                } else {
-                    // handle movement
-                }
-                rl.prompt()
-            }).on('close', function () {
-                resolve("");
-            });
-        })
+            }
+        }
+    }
+
+    move(direction, movement) {
+        this.position[direction] += movement;
+        if (!this.validatePosition()) {
+            console.log("You are at the edge of the map. Teleporting you to a random position!");
+            this.position = [...Array(2)].map(() => Math.floor(Math.random() * 2));
+        }
+    }
+
+    validatePosition () {
+        return (this.position[0] >= 0 && this.position[0] <= 2) && (this.position[1] >= 0 && this.position[1] <= 2);
     }
 
     getHealth() {
@@ -36,7 +54,7 @@ export class Player {
         return this.name;
     }
 
-    setName(s){
+    setName(s) {
         return this.name = s;
     }
 
@@ -94,5 +112,4 @@ export class Player {
     resetInventory() {
         return this.inventory = [];
     }
-
 }
