@@ -1,17 +1,31 @@
 // Stores player information 
 
 export class Player {
-    constructor(name = "Player", health = 10, currentRoom = '', startRoom) {
+    constructor(name = "Player", health = 10, level) {
         this.name = name;
         this.health = health;
         this.inventory = [];
-        if (this.currentRoom === '') {
-            this.currentRoom = this.startRoom;
-        } else {
-            this.currentRoom = currentRoom;
-        }
-        this.startRoom = startRoom;
+        this.actions = ["attack", "run"];
+        this.level = level;
+    }
 
+    movement() {
+        let movements = ["w", "a", "s", "d"];
+        return new Promise((resolve, reject) => {
+            let rl = readline.createInterface(process.stdin, process.stdout);
+            rl.setPrompt(">");
+            rl.prompt();
+            rl.on('line', (playerMovement) => {
+                if (movements.includes(!playerMovement)) {
+                    console.log("Error! Invalid movement!");
+                } else {
+                    // handle movement
+                }
+                rl.prompt()
+            }).on('close', function () {
+                resolve("");
+            });
+        })
     }
 
     getHealth() {
@@ -24,10 +38,6 @@ export class Player {
 
     setName(s){
         return this.name = s;
-    }
-
-    getCurrentRoom(){
-        return this.currentRoom;
     }
 
     addHealth(amount) {

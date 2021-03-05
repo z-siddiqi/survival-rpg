@@ -6,10 +6,21 @@ export class Level {
 		this.description = description;
 		this.hangman = new Hangman(words);
 		this.prizes = [];
+		this.map = [];
+	}
+
+	generateMap() {
+		// this.map = [...Array(3)].map(() => Array.from({length: 3}, () => Math.floor(Math.random() * 4)));
+		this.map = [[0, 2, 0], [3, 0, 0], [0, 1, 0]];
+	}
+
+	getMapElement(x, y) {
+		let element = this.map[x][y];
+		return element;
 	}
 
 	getPrize() {
-		prize = this.prizes.pop();
+		let prize = this.prizes.pop();
 		return prize;
 	}
 
@@ -36,4 +47,5 @@ let firstLevel = new Level(
 	"You have encountered an object.\nGuess the name of the object correctly to add it to your inventory.",
 	["words", "birds"]
 )
-firstLevel.run();
+firstLevel.generateMap();
+console.log(firstLevel.map);
