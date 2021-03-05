@@ -63,3 +63,4 @@ game: while (player.health > 0) {
 	player.addToInventory(outcome["newItem"]);
 	player.checkInventory();
 }
+
