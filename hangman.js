@@ -40,7 +40,7 @@ export class Hangman {
     }
 }
 
-async function run() {
+export async function run() {
     try {
         let hangmanResult = await hangman()
         console.log(hangmanResult);
@@ -50,7 +50,7 @@ async function run() {
 }
 
 //run();
-    function main() {
+export function main() {
         let randomWord = this.getRandomWord();
         let playerGuesses = [];
         return new Promise((resolve, reject) => {
