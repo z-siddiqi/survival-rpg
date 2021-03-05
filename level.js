@@ -25,7 +25,7 @@ export class Level {
 	}
 
 	displayIntro() {
-		console.log(`This level is called: ${this.name}\n`);
+		console.log(`\nThis level is called: ${this.name}\n`);
 		console.log(`${this.description}`);
 	}
 
@@ -41,4 +41,4 @@ let firstLevel = new Level(
 	"You have encountered an object.\nGuess the name of the object correctly to add it to your inventory.",
 	["words", "birds"]
 )
-firstLevel.run();
+//firstLevel.run();
