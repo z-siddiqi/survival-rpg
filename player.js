@@ -1,31 +1,38 @@
+import readlineSync from "readline-sync";
+
 // Stores player information 
 
 export class Player {
     constructor(name = "Player", health = 10, level) {
         this.name = name;
         this.health = health;
+        this.level = level;
         this.inventory = [];
         this.actions = ["attack", "run"];
-        this.level = level;
+        this.position = [2, 1];
     }
 
-    movement() {
-        let movements = ["w", "a", "s", "d"];
-        return new Promise((resolve, reject) => {
-            let rl = readline.createInterface(process.stdin, process.stdout);
-            rl.setPrompt(">");
-            rl.prompt();
-            rl.on('line', (playerMovement) => {
-                if (movements.includes(!playerMovement)) {
+    move() {
+        console.log("Input movement: ");
+        movementInput: while (true) {
+            var playerMovement = readlineSync.question(">");
+            switch (playerMovement) {
+                case "w":
+                    this.position[0] += 1;
+                    break movementInput;
+                case "a":
+                    this.position[1] -= 1;
+                    break movementInput;
+                case "s":
+                    this.position[0] -= 1;
+                    break movementInput;
+                case "d":
+                    this.position[1] += 1;
+                    break movementInput;
+                default:
                     console.log("Error! Invalid movement!");
-                } else {
-                    // handle movement
-                }
-                rl.prompt()
-            }).on('close', function () {
-                resolve("");
-            });
-        })
+            }
+        }
     }
 
     getHealth() {
@@ -36,7 +43,7 @@ export class Player {
         return this.name;
     }
 
-    setName(s){
+    setName(s) {
         return this.name = s;
     }
 
@@ -94,5 +101,4 @@ export class Player {
     resetInventory() {
         return this.inventory = [];
     }
-
 }
