@@ -1,11 +1,13 @@
 import { Hangman } from "./hangman.js";
+import { Player } from "./player.js";
+import { Item } from "./item.js";
 
 export class Level {
-	constructor(name, description,) {
+	constructor(name, description, items) {
 		this.name = name;
 		this.description = description;
-		this.items = ["syringe", "plaster", "first-aid kit"];  // these should be changed to instances of the item class
-		// 0 = nothing, 1 = item, 2 = hangman
+		this.items = items;
+		// 0 = nothing, 1 = item, 2 = monster (hangman)
 		this.map = Level.generateMap();
 	}
 
@@ -13,35 +15,31 @@ export class Level {
 		return [...Array(4)].map(() => Array.from({length: 4}, () => Math.floor(Math.random() * 3)));
 	}
 
-	getOutcome(position) {
+	getOutcome(position, health) {
 		let x = position[0];
 		let y = position[1];
 		let element = this.map[x][y];
+		let outcome = {"newItem": undefined, "damage": undefined};
 		if (element === 1) {
+			console.log("You have found an item.");
 			let item = this.getItem();
-			if (typeof item !=='undefined'){
-				console.log(`You have found a ${item}.`)
-				return item;
-			}
+			outcome["newItem"] = item;
 		} else if (element === 2) {
-			let hangman = new Hangman(["fish", "chips"]);
-
-			let games = hangman.main();
-
-			return games;
+			console.log("You have encountered a monster.");
+			let item = this.getItem();
+			let hangman = new Hangman("monster", health);  // need to change hardcoded word
+			let hangmanDamage = hangman.main();
+			outcome["damage"] = hangmanDamage;
+		} else {
+			console.log("Nothing here. Keep looking!");
 		}
-
-		console.log("Nothing here. Keep looking!")
-		return " ";
+		return outcome;
 	}
 
 	getItem() {
-		if(this.items.length==0){
-			return;
-		}
-		let item = this.items.pop();
-		return item;
-	}
+        let randomItem = this.items[Math.floor(Math.random() * this.items.length)]
+        return randomItem;
+    }
 
 	getIntro() {
 		return `This level is called: ${this.name}\n${this.description}`;
@@ -49,17 +47,20 @@ export class Level {
 }
 
 // testing
-/*
-let level = new Level("Level 1", "Easy level.");
+let fish = new Item("Fish", 5);
+let chips = new Item("Chips", 2);
+let level = new Level("Level 1", "Easy level.", [fish, chips]);
 let player = new Player();
 
 
 // main loop
 console.log(level.getIntro());
-
-game: while (true) {
+game: while (player.health > 0) {
 	console.log("Move using 'WASD' keys.\n");
 	player.inputMovevement();
-	console.log(level.getOutcome(player.position));
+	let outcome = level.getOutcome(player.position, player.health);
+	player.takeDamage(outcome["damage"]);
+	player.addToInventory(outcome["newItem"]);
+	player.checkInventory();
 }
-*/
+
