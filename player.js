@@ -38,12 +38,12 @@ export class Player {
         this.position[direction] += movement;
         if (!this.validatePosition()) {
             console.log("You are at the edge of the map. Teleporting you to a random position!");
-            this.position = [...Array(2)].map(() => Math.floor(Math.random() * 2));
+            this.position = [...Array(2)].map(() => Math.floor(Math.random() * 4));
         }
     }
 
     validatePosition () {
-        return (this.position[0] >= 0 && this.position[0] <= 2) && (this.position[1] >= 0 && this.position[1] <= 2);
+        return (this.position[0] >= 0 && this.position[0] <= 3) && (this.position[1] >= 0 && this.position[1] <= 3);
     }
 
     getHealth() {

@@ -1,13 +1,9 @@
 import readlineSync from "readline-sync";
 
 export class Hangman {
-    constructor(words) {
-        this.words = words;
-    }
-
-    getRandomWord() {
-        const randomWord = this.words[Math.floor(Math.random() * this.words.length)]
-        return randomWord.toLowerCase();
+    constructor(word, lives) {
+        this.word = word;
+        this.lives = lives;
     }
 
     getOutput(word, guesses) {
@@ -36,26 +32,24 @@ export class Hangman {
 
     isRoundLost(word, guesses) {
         let incorrectGuesses = guesses.filter(letter => !word.includes(letter))
-        return !(5 - incorrectGuesses.length);
+        return !(this.lives - incorrectGuesses.length);
     }
 
     main() {
-        // maybe pass in an item to win from level items?
-        let randomWord = this.getRandomWord();
         let playerGuesses = [];
         let outcome;
-        console.log(`You have encountered an object. Guess the ${randomWord.length} letter word to add it to your inventory.`);
-        console.log(this.getOutput(randomWord, playerGuesses));
+        console.log(`You have encountered an object. Guess the ${this.word.length} letter word to add it to your inventory.`);
+        console.log(this.getOutput(this.word, playerGuesses));
         while (true) {
             var playerGuess = readlineSync.question(">");
             if (playerGuess.length != 1) {
                 console.log("Error! Can only guess one letter at a time!")
             } else {
-                console.log(this.processGuess(randomWord, playerGuess, playerGuesses));
-                if (this.isRoundWon(randomWord, playerGuesses)) {
-                    outcome = `You won, ${randomWord} added to inventory!`;
+                console.log(this.processGuess(this.word, playerGuess, playerGuesses));
+                if (this.isRoundWon(this.word, playerGuesses)) {
+                    outcome = `You won, ${this.word} added to inventory!`;
                     break;
-                } else if (this.isRoundLost(randomWord, playerGuesses)) {
+                } else if (this.isRoundLost(this.word, playerGuesses)) {
                     outcome = "You lost!";
                     // reduce health here
                     break;

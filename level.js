@@ -14,7 +14,7 @@ export class Level {
 		return [...Array(4)].map(() => Array.from({length: 4}, () => Math.floor(Math.random() * 3)));
 	}
 
-	getOutcome(position) {
+	getOutcome(position, health) {
 		let x = position[0];
 		let y = position[1];
 		let element = this.map[x][y];
@@ -23,16 +23,17 @@ export class Level {
 			return `You have found a ${item}. Item added to your inventory.`;
 			// add item to inventory
 		} else if (element === 2) {
-			let hangman = new Hangman(["fish", "chips"]);
+			let item = this.getItem();
+			let hangman = new Hangman(item, health);
 			return hangman.main();
 		}
 		return "Nothing here. Keep looking!";
 	}
 
 	getItem() {
-		let item = this.items.pop();
-		return item;
-	}
+        let randomItem = this.items[Math.floor(Math.random() * this.items.length)]
+        return randomItem;
+    }
 
 	getIntro() {
 		return `This level is called: ${this.name}\n${this.description}`;
@@ -49,5 +50,5 @@ console.log(level.getIntro());
 game: while (true) {
 	console.log("Move using 'WASD' keys.\n");
 	player.inputMovevement();
-	console.log(level.getOutcome(player.position));
+	console.log(level.getOutcome(player.position, player.health));
 }
