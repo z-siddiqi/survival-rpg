@@ -2,6 +2,7 @@ import readlineSync from "readline-sync";
 import {Player} from "./player.js";
 //import {run} from "./hangman.js";
 import {Level} from "./level.js";
+import {Item} from "./item.js";
 
 /*
 const readline = readlineSync.createInterface({
@@ -13,7 +14,7 @@ const readline = readlineSync.createInterface({
 var player = new Player();
 var lobbyOptions = `\n1: Explore \n2: Inventory \n3: Player Status\nQ: Quit Game\n`;
 var inventoryOptions = `\n1: Use item \n2: Back to menu\n`;
-
+var level = new Level("Level 1", "Easy level.", player);
 /* Initialise player name
 readline.question(`Game Start \nEnter your name: `, (answer) => {
   player.setName(answer);
@@ -48,13 +49,33 @@ function menu(){
 }
 
 function explore(){
-  let firstLevel = new Level(
-    "Level 1",
-    "You have encountered an object.\nGuess the name of the object correctly to add it to your inventory.",
-    ["words", "birds"]
-  )
-  firstLevel.run();
-  console.log("end of lvl, returned to game");
+  let count = 0;
+  console.log(level.getIntro());
+
+  game: while (true) {
+    //player.chooseWhatToDo();
+    player.inputMovevement();
+    let result = level.getOutcome(player.position);
+
+    //console.log(`debug: ${result} is ${typeof result}`);
+
+   if (typeof result == 'string' && result != " "){
+    player.putInBag(result);
+    player.printInventory(); //debug purposes
+    } else if (result === 1){
+      console.log(" won, implement add item here");
+    } else if (result === 0){
+      player.takeDamage(2);
+    }
+
+
+    count++;
+    if(count==10){
+      break;
+    }
+  }
+
+  console.log("end of lvl, returned to lobby/index file");
   menu();
 }
 
@@ -68,7 +89,8 @@ function inventoryMenu(){
       playerUseItem(); // use item
       break;
     default: 
-      menu();
+      //menu();
+      return;
   }
 }
 

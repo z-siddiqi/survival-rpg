@@ -53,10 +53,12 @@ export class Hangman {
             } else {
                 console.log(this.processGuess(randomWord, playerGuess, playerGuesses));
                 if (this.isRoundWon(randomWord, playerGuesses)) {
-                    outcome = `You won, ${randomWord} added to inventory!`;
+                    outcome = 1;
+                    console.log(`You won, ${randomWord} added to inventory!`);
                     break;
                 } else if (this.isRoundLost(randomWord, playerGuesses)) {
-                    outcome = "You lost!";
+                    outcome = 0;
+                    console.log("You lost!");
                     // reduce health here
                     break;
                 }

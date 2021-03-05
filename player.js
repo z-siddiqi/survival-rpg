@@ -12,29 +12,39 @@ export class Player {
     }
 
     inputMovevement() {
-        console.log("Input movement: ");
-        movementInput: while (true) {
+        console.log("Move using 'WASD' keys. i to open inventory");
+        //movementInput: while (true) {
             var playerMovement = readlineSync.question(">");
             switch (playerMovement) {
                 case "w":
                     this.move(0, -1);
-                    break movementInput;
+                    break; //movementInput;
                 case "a":
                     this.move(1, -1);
-                    break movementInput;
+                    break; //movementInput;
                 case "s":
                     this.move(0, 1);
-                    break movementInput;
+                    break; //movementInput;
                 case "d":
                     this.move(1, 1);
-                    break movementInput;
+                    break; //movementInput;
+                case "i":
+                    //open item menu
+                    console.log("implement item menu thingy")
+                    this.move(0,0);
+                    return; //movementInput;    
                 default:
-                    console.log("Error! Invalid movement!");
+                    console.log("Error! Invalid choice!");
             }
-        }
+        //}
     }
 
     move(direction, movement) {
+
+        if(direction==0 && movement==0){
+            return;
+        }
+
         this.position[direction] += movement;
         if (!this.validatePosition()) {
             console.log("You are at the edge of the map. Teleporting you to a random position!");
@@ -68,16 +78,6 @@ export class Player {
         return this.health -= damage;
     }
 
-    checkInventory() {
-        if (this.inventory.length != 0) {
-            //return this.inventory; 
-            this.printInventory();
-        }
-        else {
-            console.log("Your inventory is empty.");
-        }
-    }
-
     putInBag(item) {
         this.inventory.push(item);
         console.log(`You have put ${item} in your bag.`)
@@ -100,7 +100,7 @@ export class Player {
 
     printInventory() {
         if (this.inventory.length == 0) {
-            return;
+            console.log("Your inventory is empty")
         }
         var s = "";
         for (var i of this.inventory) {

@@ -1,8 +1,7 @@
 import { Hangman } from "./hangman.js";
-import { Player } from "./player.js";
 
 export class Level {
-	constructor(name, description) {
+	constructor(name, description,) {
 		this.name = name;
 		this.description = description;
 		this.items = ["syringe", "plaster", "first-aid kit"];  // these should be changed to instances of the item class
@@ -20,16 +19,26 @@ export class Level {
 		let element = this.map[x][y];
 		if (element === 1) {
 			let item = this.getItem();
-			return `You have found a ${item}. Item added to your inventory.`;
-			// add item to inventory
+			if (typeof item !=='undefined'){
+				console.log(`You have found a ${item}.`)
+				return item;
+			}
 		} else if (element === 2) {
 			let hangman = new Hangman(["fish", "chips"]);
-			return hangman.main();
+
+			let games = hangman.main();
+
+			return games;
 		}
-		return "Nothing here. Keep looking!";
+
+		console.log("Nothing here. Keep looking!")
+		return " ";
 	}
 
 	getItem() {
+		if(this.items.length==0){
+			return;
+		}
 		let item = this.items.pop();
 		return item;
 	}
@@ -40,14 +49,17 @@ export class Level {
 }
 
 // testing
+/*
 let level = new Level("Level 1", "Easy level.");
 let player = new Player();
 
 
 // main loop
 console.log(level.getIntro());
+
 game: while (true) {
 	console.log("Move using 'WASD' keys.\n");
 	player.inputMovevement();
 	console.log(level.getOutcome(player.position));
 }
+*/
