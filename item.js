@@ -7,6 +7,14 @@ export class Item {
     displayInfo() {
         console.log(`${this.name} increases your health by ${this.healthBoost}!`);
     }
+
+    getHealthEffect(){
+        return this.healthBoost;
+    }
+
+    getName(){
+        return this.name;
+    }
 }
 
 // example items
