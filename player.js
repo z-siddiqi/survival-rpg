@@ -3,12 +3,11 @@ import readlineSync from "readline-sync";
 // Stores player information 
 
 export class Player {
-    constructor(name = "Player", health = 10, level) {
+    constructor(name = "Player", health = 10) {
         this.name = name;
         this.health = health;
-        this.level = level;
         this.inventory = [];
-        this.position = [3, 1];
+        this.position = [1, 1];
     }
 
     inputMovevement() {
@@ -42,7 +41,7 @@ export class Player {
         }
     }
 
-    validatePosition () {
+    validatePosition() {
         return (this.position[0] >= 0 && this.position[0] <= 3) && (this.position[1] >= 0 && this.position[1] <= 3);
     }
 
@@ -59,57 +58,52 @@ export class Player {
     }
 
     addHealth(amount) {
-        console.log(`You have added ${amount} health.`);
-        return this.health += amount;
-    }
-
-    takeDamage(damage) {
-        console.log(`You have taken ${damage} damage.`);
-        return this.health -= damage;
-    }
-
-    checkInventory() {
-        if (this.inventory.length != 0) {
-            //return this.inventory; 
-            this.printInventory();
-        }
-        else {
-            console.log("Your inventory is empty.");
+        if (typeof amount !== "undefined") {
+            this.health += amount
+            console.log(`You have added ${amount} health.`);
         }
     }
 
-    putInBag(item) {
-        this.inventory.push(item);
-        console.log(`You have put ${item} in your bag.`)
-        return this.inventory;
+    takeDamage(amount) {
+        if (typeof amount !== "undefined") {
+            this.health -= amount;
+            console.log(`You have taken ${amount} damage.`);
+        }
     }
 
-    use(item) {
+    addToInventory(item) {
+        if (typeof item !== "undefined") {
+            this.inventory.push(item);
+            console.log(`${item.name} added to your inventory.`)
+        }
+    }
+
+    useItem(item) {
         if (!this.inventory.includes(item)) {
             console.log(`You do not have a ${item}.`);
         } else {
             this.inventory = this.inventory.filter(i => i !== item);
             console.log(`You used a ${item}.`);
         }
-        return this.inventory;
-    }
-
-    printStatus() {
-        console.log(`Name: ${this.name} \nHealth: ${this.health}`)
-    }
-
-    printInventory() {
-        if (this.inventory.length == 0) {
-            return;
-        }
-        var s = "";
-        for (var i of this.inventory) {
-            s += `\n${i} `;
-        };
-        console.log(`Inventory: \n------------${s}\n------------`);
     }
 
     resetInventory() {
-        return this.inventory = [];
+        this.inventory = [];
+    }
+
+    checkStatus() {
+        console.log(`Name: ${this.name}\nHealth: ${this.health}`)
+    }
+
+    checkInventory() {
+        let s;
+        if (this.inventory.length !== 0) {
+            for (var i of this.inventory) {
+                s += `\n${i} `;
+            };
+        } else {
+            s = "Your inventory is empty.";
+        }
+        console.log(`Inventory:\n------------\n${s}\n------------`);
     }
 }

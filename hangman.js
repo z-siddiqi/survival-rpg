@@ -31,14 +31,13 @@ export class Hangman {
     }
 
     isRoundLost(word, guesses) {
-        let incorrectGuesses = guesses.filter(letter => !word.includes(letter))
+        let incorrectGuesses = guesses.filter(letter => !word.includes(letter));
         return !(this.lives - incorrectGuesses.length);
     }
 
     main() {
         let playerGuesses = [];
-        let outcome;
-        console.log(`You have encountered an object. Guess the ${this.word.length} letter word to add it to your inventory.`);
+        console.log(`Guess the ${this.word.length} letter word to defeat it.`);
         console.log(this.getOutput(this.word, playerGuesses));
         while (true) {
             var playerGuess = readlineSync.question(">");
@@ -47,15 +46,15 @@ export class Hangman {
             } else {
                 console.log(this.processGuess(this.word, playerGuess, playerGuesses));
                 if (this.isRoundWon(this.word, playerGuesses)) {
-                    outcome = `You won, ${this.word} added to inventory!`;
+                    console.log("You won!");
                     break;
                 } else if (this.isRoundLost(this.word, playerGuesses)) {
-                    outcome = "You lost!";
-                    // reduce health here
+                    console.log("You lost!");
                     break;
                 }
             }
         }
-        return outcome;
+        let damage = playerGuesses.filter(letter => !this.word.includes(letter)).length;
+        return damage;
     }
 }

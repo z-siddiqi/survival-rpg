@@ -16,7 +16,3 @@ export class Item {
         return this.name;
     }
 }
-
-// example items
-let burger = new Item("burger", 2);
-burger.displayInfo();
