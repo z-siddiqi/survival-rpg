@@ -1,4 +1,4 @@
-import readline from "readline";
+import readlineSync from "readline-sync";
 
 export class Hangman {
     constructor(words) {
@@ -42,28 +42,21 @@ export class Hangman {
     main() {
         let randomWord = this.getRandomWord();
         let playerGuesses = [];
-        return new Promise((resolve, reject) => {
-            let rl = readline.createInterface(process.stdin, process.stdout);
-            console.log(this.getOutput(randomWord, playerGuesses));
-            rl.setPrompt(">");
-            rl.prompt();
-            rl.on('line', (playerGuess) => {
-                if (playerGuess.length != 1) {
-                    console.log("Error! Can only guess one letter at a time!")
-                } else {
-                    console.log(this.processGuess(randomWord, playerGuess, playerGuesses));
-                    if (this.isRoundWon(randomWord, playerGuesses)) {
-                        console.log("You Won!")
-                        rl.close();
-                    } else if (this.isRoundLost(randomWord, playerGuesses)) {
-                        console.log("You Lost!")
-                        rl.close();
-                    }
+        console.log(this.getOutput(randomWord, playerGuesses));
+        while (true) {
+            var playerGuess = readlineSync.question(">");
+            if (playerGuess.length != 1) {
+                console.log("Error! Can only guess one letter at a time!")
+            } else {
+                console.log(this.processGuess(randomWord, playerGuess, playerGuesses));
+                if (this.isRoundWon(randomWord, playerGuesses)) {
+                    console.log("You Won!")
+                    break;
+                } else if (this.isRoundLost(randomWord, playerGuesses)) {
+                    console.log("You Lost!")
+                    break;
                 }
-                rl.prompt()
-            }).on('close', function () {
-                resolve("Round Over!");
-            });
-        })
+            }
+        }
     }
 }
