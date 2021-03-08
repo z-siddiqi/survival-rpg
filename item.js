@@ -4,15 +4,7 @@ export class Item {
         this.healthBoost = healthBoost;
     }
 
-    displayInfo() {
-        console.log(`${this.name} increases your health by ${this.healthBoost}!`);
-    }
-
-    getHealthEffect(){
-        return this.healthBoost;
-    }
-
-    getName(){
-        return this.name;
+    getInfo() {
+        return `${this.name} increases your health by ${this.healthBoost}!`;
     }
 }
