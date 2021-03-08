@@ -67,7 +67,7 @@ function playerMovement() {
 function playerItem() {
 	console.log("Which item would you like to use?\n");
 	console.log(player.checkInventory());
-	let input = readlineSync.question(">\n");
+	let input = readlineSync.question(">");
 	player.useItem(input, (outcome) => {
 		player.addHealth(outcome["health"]);
 	});

@@ -1,4 +1,5 @@
 import readlineSync from "readline-sync";
+import { Item } from "./item.js";
 
 export class Player {
     constructor(name = "Player", health = 10) {
@@ -44,9 +45,9 @@ export class Player {
     useItem(itemName, callback) {
         let item = this.inventory.filter(i => {
             return i.name === itemName;
-        })
+        })[0]  // only want the first item
 
-        if (!item) {
+        if (item === undefined) {
             console.log(`You do not have a ${itemName}.`);
         } else {
             this.inventory = this.inventory.filter(i => i !== item);
@@ -62,7 +63,7 @@ export class Player {
         } else {
             inventoryString += "Inventory:\n";
             for (let item of this.inventory) {
-                inventoryString += item.name;
+                inventoryString += item.name + "\n";
             }
         }
         return inventoryString;
