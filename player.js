@@ -8,55 +8,6 @@ export class Player {
         this.position = [1, 1];
     }
 
-    inputAction() {
-        console.log("Input action.");
-        activeInput: while (true) {
-            var playerMovement = readlineSync.question(">");
-            switch (playerMovement) {
-                case "move":
-                    this.inputMovevement();
-                    break activeInput;
-                case "use item":
-                    this.inputItem();
-                    break activeInput;
-                default:
-                    console.log("Error! Invalid action!");
-            }
-        }
-    }
-
-    inputMovevement() {
-        console.log("Input movement using 'WASD' keys.");
-        movementInput: while (true) {
-            var playerMovement = readlineSync.question(">");
-            switch (playerMovement) {
-                case "w":
-                    this.move(0, -1);
-                    break movementInput;
-                case "a":
-                    this.move(1, -1);
-                    break movementInput;
-                case "s":
-                    this.move(0, 1);
-                    break movementInput;
-                case "d":
-                    this.move(1, 1);
-                    break movementInput;
-                default:
-                    console.log("Error! Invalid movement!");
-            }
-        }
-    }
-
-    inputItem() {
-        console.log("Which item would you like to use?");
-        this.checkInventory();
-        let playerItem = readlineSync.question(">");
-        this.useItem(playerItem, (outcome) => {
-            this.addHealth(outcome["health"]);
-        });
-    }
-
     move(direction, movement) {
         this.position[direction] += movement;
         if (!this.validatePosition()) {
@@ -105,13 +56,15 @@ export class Player {
     }
 
     checkInventory() {
+        let inventoryString = "";
         if (this.inventory.length === 0) {
-            console.log("Your inventory is empty.");
+            inventoryString = "Your inventory is empty.";
         } else {
-            console.log("Inventory:\n");
+            inventoryString += "Inventory:\n";
             for (let item of this.inventory) {
-                console.log(item.name);
+                inventoryString += item.name;
             }
         }
+        return inventoryString;
     }
 }
