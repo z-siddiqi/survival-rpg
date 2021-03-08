@@ -11,8 +11,9 @@ let player = new Player();
 
 // offer options e: Explore q: Quit Game
 function menu() {
+	let input;
 	menuInput: while (true) {
-		let input = readlineSync.question(`Menu\nChoose your option:\ne: Explore \nq: Quit Game\n`);
+		input = readlineSync.question(`Menu\nChoose your option:\ne: Explore \nq: Quit Game\n> `);
 		switch (input) {
 			case 'e':
 				explore();
@@ -27,8 +28,9 @@ function menu() {
 }
 
 function playerAction() {
+	let input;
 	actionInput: while (true) {
-		let input = readlineSync.question(`Action\nChoose your action:\nm: Move \ni: Use Item\n`);
+		input = readlineSync.question(`Action\nChoose your action:\nm: Move \ni: Use Item\n> `);
 		switch (input) {
 			case "m":
 				playerMovement();
@@ -40,11 +42,13 @@ function playerAction() {
 				console.log("Error! Invalid action!");
 		}
 	}
+	return input;
 }
 
 function playerMovement() {
+	let input;
 	movementInput: while (true) {
-		let input = readlineSync.question(`Movement\nInput movement using 'wasd' keys.\n`);
+		input = readlineSync.question(`Movement\nInput movement using 'wasd' keys.\n> `);
 		switch (input) {
 			case "w":
 				player.move(0, -1);
@@ -65,9 +69,13 @@ function playerMovement() {
 }
 
 function playerItem() {
-	console.log("Which item would you like to use?\n");
-	console.log(player.checkInventory());
-	let input = readlineSync.question(">");
+	let input;
+	let inventory = player.getInventoryString();
+	if (inventory === "") {
+		console.log("Your inventory is empty");
+		return;
+	}
+	input = readlineSync.question(`Which item would you like to use?\n${inventory}\n> `);
 	player.useItem(input, (outcome) => {
 		player.addHealth(outcome["health"]);
 	});
@@ -76,12 +84,15 @@ function playerItem() {
 function explore() {
 	console.log(level.getIntro());
 	game: while (player.health > 0) {
-		playerAction();
-		level.updateStatus(player.position, player.health, (outcome) => {
-			player.addHealth(outcome["health"]);
-			player.takeDamage(outcome["damage"]);
-			player.addToInventory(outcome["newItem"]);
-		});
+		if (playerAction() === "m") {
+			level.updateStatus(player.position, player.health, (outcome) => {
+				player.addHealth(outcome["health"]);
+				player.takeDamage(outcome["damage"]);
+				player.addToInventory(outcome["newItem"]);
+			});
+		} else {
+			continue game;
+		}
 	}
 	console.log("End of level.");
 }

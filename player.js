@@ -44,7 +44,7 @@ export class Player {
 
     useItem(itemName, callback) {
         let item = this.inventory.filter(i => {
-            return i.name === itemName;
+            return i.name.toLowerCase() === itemName.toLowerCase();
         })[0]  // only want the first item
 
         if (item === undefined) {
@@ -56,11 +56,9 @@ export class Player {
         }
     }
 
-    checkInventory() {
+    getInventoryString() {
         let inventoryString = "";
-        if (this.inventory.length === 0) {
-            inventoryString = "Your inventory is empty.";
-        } else {
+        if (this.inventory.length !== 0) {
             inventoryString += "Inventory:\n";
             for (let item of this.inventory) {
                 inventoryString += item.name + "\n";
