@@ -1,12 +1,12 @@
 import readlineSync from "readline-sync";
+import { Character } from "./character.js";
 import { Item } from "./item.js";
+import { Inventory } from "./inventory.js";
 
-export class Player {
-    constructor(name = "Player", health = 10) {
-        this.name = name;
-        this.health = health;
-        this.inventory = [];
-        this.position = [1, 1];
+export class Player extends Character {
+    constructor(name = "Player", health = 10, position = [1,1]) {
+        super(name, health, position)
+        this.inventory = new Inventory();
     }
 
     move(direction, movement) {
@@ -17,28 +17,10 @@ export class Player {
         }
     }
 
-    validatePosition() {
-        return (this.position[0] >= 0 && this.position[0] <= 3) && (this.position[1] >= 0 && this.position[1] <= 3);
-    }
-
     addHealth(amount) {
         if (typeof amount !== "undefined") {
             this.health += amount
             console.log(`You have added ${amount} health.`);
-        }
-    }
-
-    takeDamage(amount) {
-        if (typeof amount !== "undefined") {
-            this.health -= amount;
-            console.log(`You have taken ${amount} damage.`);
-        }
-    }
-
-    addToInventory(item) {
-        if (typeof item !== "undefined") {
-            this.inventory.push(item);
-            console.log(`${item.name} added to your inventory.`)
         }
     }
 
@@ -56,14 +38,4 @@ export class Player {
         }
     }
 
-    getInventoryString() {
-        let inventoryString = "";
-        if (this.inventory.length !== 0) {
-            inventoryString += "Inventory:\n";
-            for (let item of this.inventory) {
-                inventoryString += item.name + "\n";
-            }
-        }
-        return inventoryString;
-    }
 }
