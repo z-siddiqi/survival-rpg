@@ -1,11 +1,9 @@
-import readlineSync from "readline-sync";
 import { Character } from "./character.js";
-import { Item } from "./item.js";
 import { Inventory } from "./inventory.js";
 
 export class Player extends Character {
-    constructor(name = "Player", health = 10, position = [1,1]) {
-        super(name, health, position)
+    constructor(name = "Player", health = 10) {
+        super(name, health)
         this.inventory = new Inventory();
     }
 
@@ -25,14 +23,14 @@ export class Player extends Character {
     }
 
     useItem(itemName, callback) {
-        let item = this.inventory.filter(i => {
+        let item = this.inventory.bag.filter(i => {
             return i.name.toLowerCase() === itemName.toLowerCase();
         })[0]  // only want the first item
 
         if (item === undefined) {
             console.log(`You do not have a ${itemName}.`);
         } else {
-            this.inventory = this.inventory.filter(i => i !== item);
+            this.inventory.bag = this.inventory.bag.filter(i => i !== item);
             let outcome = { "health": item.healthBoost };
             callback(outcome);
         }

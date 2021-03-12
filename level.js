@@ -1,5 +1,4 @@
 import { Hangman } from "./hangman.js";
-import { Item } from "./item.js";
 
 export class Level {
 	constructor(name, description, items) {
@@ -15,9 +14,7 @@ export class Level {
 	}
 
 	updateStatus(position, health, callback) {
-		let x = position[0];
-		let y = position[1];
-		let element = this.map[x][y];
+		let element = this.getElement(position);
 		let outcome = {};
 		if (element === 1) {
 			console.log("You have found an item.");
@@ -32,6 +29,13 @@ export class Level {
 			console.log("Nothing here. Keep looking!");
 		}
 		callback(outcome);
+	}
+
+	getElement(position) {
+		let x = position[0];
+		let y = position[1];
+		let element = this.map[x][y];
+		return element;
 	}
 
 	getItem() {

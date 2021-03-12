@@ -70,7 +70,7 @@ function playerMovement() {
 
 function playerItem() {
 	let input;
-	let inventory = player.getInventoryString();
+	let inventory = player.inventory.getInventoryString();
 	if (inventory === "") {
 		console.log("Your inventory is empty");
 		return;
@@ -88,7 +88,7 @@ function explore() {
 			level.updateStatus(player.position, player.health, (outcome) => {
 				player.addHealth(outcome["health"]);
 				player.takeDamage(outcome["damage"]);
-				player.addToInventory(outcome["newItem"]);
+				player.inventory.addToBag(outcome["newItem"]);
 			});
 		} else {
 			continue game;
