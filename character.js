@@ -1,20 +1,24 @@
 export class Character{
-    constructor(name, health, position){
+    constructor(name, health){
         this.name = name;
         this.health = health;
-        this.position = position;
+        this.position = [1, 1];
     }
 
-    getName(){
+    getName() {
         return this.name;
     }
 
-    setName(name){
+    setName(name) {
         this.name = name;
     }
 
-    getPosition(){
+    getPosition() {
         return this.position;
+    }
+
+    setPosition(position) {
+        this.position = position;
     }
 
     takeDamage(amount) {
@@ -28,6 +32,6 @@ export class Character{
         return (this.position[0] >= 0 && this.position[0] <= 3) && (this.position[1] >= 0 && this.position[1] <= 3);
     }
 
-    move(){
+    move() {
     }
 }
